@@ -22,7 +22,7 @@ export function Menu({ collapsed, onCollapse }) {
       <div className="logo" />
       <AntMenu mode="inline" defaultSelectedKeys={['1']}>
         {/* <div className="logo" /> */}
-        <AntMenu defaultSelectedKeys={['1']} mode="inline">
+        {/* <AntMenu defaultSelectedKeys={['1']} mode="inline"> */}
           <Item key="1">
             <Icon type="pie-chart" />
             <span>Option 1</span>
@@ -40,8 +40,8 @@ export function Menu({ collapsed, onCollapse }) {
               </span>
             }
           >
-            <Item key="3">Tom</Item>
-            <Item key="4">Bill</Item>
+            <AntMenu.Item key="3">Tom</AntMenu.Item>
+            <AntMenu.Item key="4">Bill</AntMenu.Item>
             <Item key="5">Alex</Item>
           </SubMenu>
           <SubMenu
@@ -61,7 +61,7 @@ export function Menu({ collapsed, onCollapse }) {
             <span>File</span>
           </Item>
         </AntMenu>
-      </AntMenu>
+      {/* </AntMenu> */}
     </Sider>
   )
 }
