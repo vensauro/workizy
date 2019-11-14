@@ -1,45 +1,49 @@
-import React, { useState, useEffect } from 'react'
-import { Card, Icon, Avatar } from 'antd'
-import Meta from 'antd/lib/card/Meta'
+import React, { useState, useEffect } from "react";
+import { Card, Icon, Avatar } from "antd";
+import Meta from "antd/lib/card/Meta";
 
 export const Sidebar = ({
+  tasks,
+  loading,
+  user,
   description = "This is the description",
   title = "Card title",
-  loading
-}) =>
+  photoSrc = '',
+  photoLoading = false
+}) => (
   <section className="sidebar">
-    <Cardezoka description={description} title={title} loading={loading}/>
-    <Cardezoka description={description} title={title} loading={loading}/>
-    <Cardezoka description={description} title={title} loading={loading}/>
-    <Cardezoka description={description} title={title} loading={loading}/>
+    {console.log(user)}
+    {tasks.map(task =>
+      <Cardezoka
+        description={task.description}
+        title={task.title}
+        photoSrc={task}
+        loading={loading}
+        photoLoading={false}
+      />
+    )}
+    
+    <Cardezoka description={description} title={title} loading={loading} />
+    <Cardezoka description={description} title={title} loading={loading} />
+    <Cardezoka description={description} title={title} loading={loading} />
   </section>
-
-
+);
 
 function Cardezoka({
   description,
   title,
-  loading = false
+  loading = false,
+  photoLoading,
+  photoSrc
 }) {
-
-  const [photoSrc, setPhotoSrc] = useState('')
-  const [photoLoading, setPhotoLoading] = useState(true)
-
-  useEffect(() => {
-    fetch('https://randomuser.me/api/?inc=picture')
-      .then(res => res.json())
-      .then(res => setPhotoSrc(res.results[0].picture.large))
-      .then(() => setPhotoLoading(false))
-  }, [])
-
   return (
     <Card
       loading={loading || photoLoading}
-      style={{ width: '100%' }}
+      style={{ width: "100%" }}
       actions={[
         <Icon type="setting" key="setting" />,
         <Icon type="edit" key="edit" />,
-        <Icon type="ellipsis" key="ellipsis" />,
+        <Icon type="ellipsis" key="ellipsis" />
       ]}
     >
       <Meta
@@ -48,5 +52,5 @@ function Cardezoka({
         description={description}
       />
     </Card>
-  )
+  );
 }

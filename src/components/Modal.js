@@ -16,7 +16,7 @@ export const Modal = ({ visible, hide }) => {
   const [usersData, setUsers] = useState([]);
 
   function taskCreate() {
-    api
+    api()
       .url('/tasks')
       .post(formValues)
       .json(res => {
@@ -28,7 +28,7 @@ export const Modal = ({ visible, hide }) => {
 
   useEffect(() => {
     if (visible === true)
-      api
+      api()
         .url('/users')
         .get()
         .json(res => {
