@@ -10,6 +10,8 @@ import {
   Button,
   message,
 } from 'antd';
+import wretcher from 'wretch';
+import { withRouter } from 'react-router-dom'
 
 class Register extends React.Component {
   state = {
@@ -22,7 +24,16 @@ class Register extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
       }
-      message.info(JSON.stringify(values))
+      wretcher('http://127.0.0.1:8000/api/register')
+      .post(values).json()
+      .then(console.log)
+      .then(() => {        
+        message.info(JSON.stringify(values))
+      })
+      .then(() => {
+        this.props.history.push('/')
+      })
+      .catch(console.error)      
     });
   };
 
@@ -173,4 +184,5 @@ class Register extends React.Component {
   }
 }
 
-export const WrappedRegister = Form.create({ name: 'register' })(Register);
+
+export const WrappedRegister = withRouter(Form.create({ name: 'register' })(Register))

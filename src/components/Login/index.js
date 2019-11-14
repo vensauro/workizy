@@ -1,6 +1,8 @@
 import React from 'react'
 import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
 import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import wretcher from 'wretch';
 import './styles.css'
 
 
@@ -11,7 +13,15 @@ class Login extends React.Component {
       if (!err) {
         console.log('Received values of form: ', values);
       }
-      message.info(JSON.stringify(values))
+
+      wretcher('http://localhost:8000/api/login')
+        .post(values).json()
+        .then( res => {
+          localStorage.setItem('user',JSON.stringify(res.data))
+          console.log(res)
+          this.props.history.push('/')
+        })
+        .catch(console.error) 
     });
   };
 
@@ -21,7 +31,7 @@ class Login extends React.Component {
       <div className="center--container">
         <Form onSubmit={this.handleSubmit} className="login-form box--border">
           <Form.Item>
-            {getFieldDecorator('username', {
+            {getFieldDecorator('email', {
               rules: [{ required: true, message: 'Please input your username!' }],
             })(
               <Input
@@ -61,4 +71,4 @@ class Login extends React.Component {
   }
 }
 
-export const WrappedLogin = Form.create({ name: 'login' })(Login);
+export const WrappedLogin = withRouter(Form.create({ name: 'login' })(Login))

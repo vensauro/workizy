@@ -21,8 +21,6 @@ export function Menu({ collapsed, onCollapse }) {
     >
       <div className="logo" />
       <AntMenu mode="inline" defaultSelectedKeys={['1']}>
-        {/* <div className="logo" /> */}
-        {/* <AntMenu defaultSelectedKeys={['1']} mode="inline"> */}
           <Item key="1">
             <Icon type="pie-chart" />
             <span>Option 1</span>
@@ -61,7 +59,6 @@ export function Menu({ collapsed, onCollapse }) {
             <span>File</span>
           </Item>
         </AntMenu>
-      {/* </AntMenu> */}
     </Sider>
   )
 }

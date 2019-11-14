@@ -1,5 +1,6 @@
 import React from 'react'
 import { Icon, Typography, Menu, Dropdown, message } from 'antd';
+import { LoggedContextEvolution } from 'App';
 
 const { Title } = Typography;
 
@@ -21,6 +22,9 @@ const menu = (
 );
 
 export function Header({ onClick }) {
+  const [user] = LoggedContextEvolution()
+
+  console.log(user);
   return (
     <header className="header bg-white">
       <div />
@@ -39,7 +43,7 @@ export function Header({ onClick }) {
           onClick={onClick}
         />
         <Dropdown.Button overlay={menu} icon={<Icon type="user" />}>
-          Admin
+          {user.name}
         </Dropdown.Button>
       </div>
     </header>
