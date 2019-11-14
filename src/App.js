@@ -1,4 +1,4 @@
-import React, { createContext, useState, useMemo, useContext } from "react";
+import React, { createContext, useState, useMemo } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { WrappedLogin } from "components/Login";
@@ -10,9 +10,8 @@ export const LoggedContext = createContext(null);
 export default function App() {
   const [globalState, setGlobalState] = useState({});
 
-  const stateContext = useMemo(() => [globalState, setGlobalState], [
-    globalState
-  ]);
+  const stateContext = useMemo(() => 
+    [globalState, setGlobalState], [globalState]);
 
   return (
     <LoggedContext.Provider value={stateContext}>
@@ -33,8 +32,4 @@ export default function App() {
       </Router>
     </LoggedContext.Provider>
   );
-}
-
-export function LoggedContextEvolution() {
-  return useContext(LoggedContext);
 }

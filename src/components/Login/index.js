@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Icon, Input, Button, Checkbox, message } from 'antd';
+import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router-dom'
 import wretcher from 'wretch';
@@ -15,13 +15,14 @@ class Login extends React.Component {
       }
 
       wretcher('http://localhost:8000/api/login')
-        .post(values).json()
-        .then( res => {
-          localStorage.setItem('user',JSON.stringify(res.data))
+        .accept('application/json')
+        .post(values)
+        .json(res => {
+          localStorage.setItem('user', JSON.stringify(res.data))
           console.log(res)
           this.props.history.push('/')
         })
-        .catch(console.error) 
+        .catch(console.error)
     });
   };
 
@@ -63,7 +64,7 @@ class Login extends React.Component {
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in
             </Button>
-            <span style={{margin: 5}}/> Or <Link to='/register'> register now!</Link>
+            <span style={{ margin: 5 }} /> Or <Link to='/register'> register now!</Link>
           </Form.Item>
         </Form>
       </div>

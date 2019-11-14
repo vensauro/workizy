@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import './styles.css'
 import { Menu } from 'components/Menu'
 import { Header } from 'components/Header';
 import { Sidebar } from 'components/Sidebar';
 import { Footer } from 'components/Footer';
 import { Modal } from 'components/Modal';
-import { LoggedContextEvolution } from 'App';
+import { useGlobalState } from 'hooks';
+import './styles.css'
 
 function Dashboard() {
 
   const [collapsed, setCollapsed] = useState(true)
   const [modal, setModal] = useState(false)
 
-  const [global, setGlobal] = LoggedContextEvolution()
+  const [, setGlobal] = useGlobalState()
 
 
-  const user = JSON.parse(localStorage.getItem('user'))
-
+  
   useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'))
     setGlobal(user)
+    console.log('useEffect')
   }, []) // eslint-disable-line
   
   return (

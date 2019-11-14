@@ -1,6 +1,6 @@
 import React from 'react'
 import { Icon, Typography, Menu, Dropdown, message } from 'antd';
-import { LoggedContextEvolution } from 'App';
+import { useGlobalState } from 'hooks';
 
 const { Title } = Typography;
 
@@ -22,9 +22,8 @@ const menu = (
 );
 
 export function Header({ onClick }) {
-  const [user] = LoggedContextEvolution()
+  const [user] = useGlobalState()
 
-  console.log(user);
   return (
     <header className="header bg-white">
       <div />
