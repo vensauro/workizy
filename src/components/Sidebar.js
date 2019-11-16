@@ -8,12 +8,12 @@ export const Sidebar = ({
   user,
   description = "This is the description",
   title = "Card title",
-  photoSrc = '',
+  photoSrc = "",
   photoLoading = false
 }) => (
   <section className="sidebar">
     {console.log(user)}
-    {tasks.map(task =>
+    {tasks.map(task => (
       <Cardezoka
         description={task.description}
         title={task.title}
@@ -21,8 +21,8 @@ export const Sidebar = ({
         loading={loading}
         photoLoading={false}
       />
-    )}
-    
+    ))}
+
     <Cardezoka description={description} title={title} loading={loading} />
     <Cardezoka description={description} title={title} loading={loading} />
     <Cardezoka description={description} title={title} loading={loading} />

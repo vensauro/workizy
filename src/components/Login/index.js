@@ -31,10 +31,12 @@ class Login extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <>
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <Title style={{ color: 'black' }}>Workeezy</Title>
-      </div>
-        <div className="center--container">
+        <div className="center--container" style={{ flexDirection: "column" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Link to="/">
+              <Title style={{ color: "black" }}>Workeezy</Title>
+            </Link>
+          </div>
           <Form onSubmit={this.handleSubmit} className="login-form box--border">
             <Form.Item>
               {getFieldDecorator("email", {
@@ -82,7 +84,9 @@ class Login extends React.Component {
                 Log in
               </Button>
               <span style={{ margin: 5 }} /> Or{" "}
-              <Link to="/register"> register now!</Link>
+              <Link to="/register">
+                <span style={{ color: "#a2b4f9" }}>register now! </span>
+              </Link>
             </Form.Item>
           </Form>
         </div>

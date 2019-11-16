@@ -9,9 +9,12 @@ import {
   Checkbox,
   Button,
   message,
+  Typography,
 } from 'antd';
 import wretcher from 'wretch';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
+
+const { Title } = Typography;
 
 class Register extends React.Component {
   state = {
@@ -86,7 +89,12 @@ class Register extends React.Component {
     };
 
     return (
-      <div className="center--container">
+      <div className="center--container" style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <div style={{ display: "flex", justifyContent: "center"}}>
+          <Link to="/">
+            <Title style={{ color: "black" }}>Workeezy</Title>
+          </Link>
+        </div>
         <Form {...formItemLayout} onSubmit={this.handleSubmit} className="box--border">
           <Form.Item label="E-mail">
             {getFieldDecorator('email', {
