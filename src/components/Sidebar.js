@@ -1,49 +1,51 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Card, Icon, Avatar } from "antd";
 import Meta from "antd/lib/card/Meta";
 
 export const Sidebar = ({
   tasks,
   loading,
-  user,
-  description = "This is the description",
-  title = "Card title",
-  photoSrc = "",
-  photoLoading = false
+  updateModalState,
+  openModal
 }) => (
-  <section className="sidebar">
-    {console.log(user)}
-    {tasks.map(task => (
-      <Cardezoka
-        description={task.description}
-        title={task.title}
-        photoSrc={task}
-        loading={loading}
-        photoLoading={false}
-      />
-    ))}
-
-    <Cardezoka description={description} title={title} loading={loading} />
-    <Cardezoka description={description} title={title} loading={loading} />
-    <Cardezoka description={description} title={title} loading={loading} />
-  </section>
-);
+    <section className="sidebar">
+      {tasks.map(task =>
+        <Cardezoka
+          key={task.id}
+          description={task.description}
+          title={task.title}
+          photoSrc={task.user.picture}
+          status={task.status}
+          loading={loading}
+          onClick={() => {
+            console.log('yuke')
+            updateModalState({
+              ...task,
+              isUpdate: true
+            })
+            openModal(true)
+          }}
+        />
+      )}
+    </section>
+  );
 
 function Cardezoka({
   description,
   title,
-  loading = false,
-  photoLoading,
-  photoSrc
+  loading = true,
+  photoSrc,
+  onClick,
+  status
 }) {
   return (
     <Card
-      loading={loading || photoLoading}
+      loading={loading}
       style={{ width: "100%" }}
       actions={[
         <Icon type="setting" key="setting" />,
-        <Icon type="edit" key="edit" />,
-        <Icon type="ellipsis" key="ellipsis" />
+        <Icon type="edit" key="edit" onClick={onClick} />,
+        <StatusIcon num={status} key="status" />
       ]}
     >
       <Meta
@@ -53,4 +55,25 @@ function Cardezoka({
       />
     </Card>
   );
+}
+
+const status = ["a fazer", "fazendo", "feito", "atrasada", "confirmada"];
+
+function StatusIcon({ num }) {
+  switch (num) {
+    case 0:
+      return <Icon type="info-circle" />
+    case 1:
+      return <Icon type="clock-circle" />
+    case 2:
+      return <Icon type="issues-close" />
+    // return < Icon type="ellipsis" />
+    case 3:
+      return <Icon type="warning" />
+    case 4:
+      return <Icon type="check-circle" />
+
+    default:
+      return <Icon type="loading" />
+  }
 }

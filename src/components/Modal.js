@@ -11,8 +11,22 @@ const difficultys = ["facil", "medio", "dificil"];
 
 const status = ["a fazer", "fazendo", "feito", "atrasada", "confirmada"];
 
-export const Modal = ({ visible, hide }) => {
-  const [formValues, setFormValues] = useState({});
+export const Modal = ({ visible, hide, state = {}, setState, updateTaskss }) => {
+  const [formValues, setFormValues] = useState(state);
+
+  useEffect(() => {
+    setFormValues({
+      title: state.title,
+      description: state.description,
+      difficulty: state.difficulty,
+      user_id: state.user_id,
+      status: state.status,
+      deadline: moment(state.deadline).format()
+    })
+  }, [state])
+
+  console.log(formValues)
+
   const [usersData, setUsers] = useState([]);
 
   function taskCreate() {
@@ -22,7 +36,22 @@ export const Modal = ({ visible, hide }) => {
       .json(res => {
         message.info("Atividade Criada")
         hide()
+        setState({})
+        updateTaskss()
         // message.info(JSON.stringify(formValues, null, 2));
+      });
+  }
+
+  function taskUpdate() {
+    api()
+      .url(`/tasks/${state.id}`)
+      .put(formValues)
+      .json(res => {
+        message.info("Atividade Atualizada")
+        hide()
+        setState({})
+        updateTaskss()
+        // message.info("Atualizada");
       });
   }
 
@@ -40,11 +69,11 @@ export const Modal = ({ visible, hide }) => {
 
   return (
     <AntModal
-      title="Criar Task"
+      title="Task"
       visible={visible}
-      onOk={taskCreate}
+      onOk={state.isUpdate ? taskUpdate : taskCreate}
       onCancel={hide}
-      okText="Criar"
+      okText={state.isUpdate ? "Atualizar" : "Criar"}
       cancelText="Cancel"
     >
       <Input
@@ -73,6 +102,7 @@ export const Modal = ({ visible, hide }) => {
         // defaultValue={0}
         placeholder="Dificuldade"
         style={{ width: "30%", marginTop: 10 }}
+        value={formValues[inputs[2]]}
         onChange={value => {
           setFormValues({
             ...formValues,
@@ -90,6 +120,7 @@ export const Modal = ({ visible, hide }) => {
         // defaultValue={0}
         placeholder="Status"
         style={{ width: "30%", marginTop: 10, float: "right", marginLeft: 25 }}
+        value={formValues[inputs[4]]}
         onChange={value => {
           setFormValues({
             ...formValues,
@@ -107,6 +138,7 @@ export const Modal = ({ visible, hide }) => {
         // defaultValue={0}
         placeholder="Usuario"
         style={{ width: "30%", marginTop: 10, float: "right" }}
+        value={formValues[inputs[3]]}
         onChange={value => {
           setFormValues({
             ...formValues,
@@ -127,10 +159,11 @@ export const Modal = ({ visible, hide }) => {
         format="YYYY-MM-DD HH:mm:ss"
         disabledDate={disabledDate}
         // disabledTime={disabledDateTime}
+        value={moment(formValues[inputs[5]])}
         onChange={e => {
           setFormValues({
             ...formValues,
-            [inputs[5]]: e.format()
+            [inputs[5]]: e && e.format()
           });
         }}
         showTime={{ defaultValue: moment("00:00:00", "HH:mm:ss") }}

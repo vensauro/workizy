@@ -12,6 +12,7 @@ import wretcher from "wretch";
 function Dashboard() {
   const [collapsed, setCollapsed] = useState(true);
   const [modal, setModal] = useState(false);
+  const [modalState, setModalState] = useState({})
   const [user, setUser] = useState([])
   const [task, setTask] = useState([])
   const [loading, setLoading] = useState(false)
@@ -29,47 +30,75 @@ function Dashboard() {
   useEffect(() => {
     setLoading(true)
     api()
-    .url('/users')
-    .get()
-    .json(async res => {
-      const { data } = res
-      const photos = await wretcher(`https://randomuser.me/api/?inc=picture&results=${data.length}`).get().json()
-      const picture = photos.results.map(pic => pic.picture.medium)
-      
-      const usuarios = data.map((usuario, index) => {
-        usuario.picture = picture[index]
-        return usuario
-      })
+      .url('/users')
+      .get()
+      .json(async res => {
+        const { data } = res
+        const photos = await wretcher(`https://randomuser.me/api/?inc=picture&results=${data.length}`).get().json()
+        const picture = photos.results.map(pic => pic.picture.medium)
 
-      setUser(usuarios)
-      setLoading(false)
-    })
+        const usuarios = data.map((usuario, index) => {
+          usuario.picture = picture[index]
+          return usuario
+        })
+
+        setUser(usuarios)
+        setLoading(false)
+      })
   }, []);
- 
+
   function setTasks(id) {
     setLoading(true)
-
     api()
       .url(`/task/${id}`)
       .get()
       .json(res => {
-        console.log(res)
-        setTask(res.data)
+        const newTasks = res.data.map(element => {
+          element.user = user.filter(e => e.id === element.user_id)[0]
+          return element
+        })
+        console.log(newTasks)
+        setTask(newTasks)
         setLoading(false)
       })
   }
 
+  const [updateTaskss, setUpdateTaskss] = useState(false)
+
+  useEffect(() => {
+    setLoading(true)
+    if (user.length > 0)
+      api()
+        .url(`/tasks`)
+        .get()
+        .json(res => {
+          const newTasks = res.data.map(element => {
+            element.user = user.filter(e => e.id === element.user_id)[0]
+            return element
+          })
+          console.log(newTasks)
+          setTask(newTasks)
+          setLoading(false)
+        })
+  }, [user, updateTaskss])
+
   return (
     <div className="container">
-      <Header onClick={() => setModal(true)} />
-      <Modal hide={() => setModal(false)} visible={modal} />
+      <Header onClick={() => setModal(true)} handleButtonClick={() => setUpdateTaskss(!updateTaskss)} />
+      <Modal
+        hide={() => setModal(false)}
+        visible={modal}
+        state={modalState}
+        setState={setModalState}
+        updateTaskss={() => setUpdateTaskss(!updateTaskss)}
+      />
       <Menu
         collapsed={collapsed}
         onCollapse={changeColapsed => setCollapsed(changeColapsed)}
       />
       <main className="main bg-red">main</main>
-      <Sidebar tasks={task} loading={loading} user={task.length > 0 ? user.map(e => e.id === task[0].user_id) : {}}/>
-      <Footer user={user} setTask={setTasks}/>
+      <Sidebar tasks={task} loading={loading} updateModalState={setModalState} openModal={() => setModal(true)} />
+      <Footer user={user} setTask={setTasks} />
     </div>
   );
 }

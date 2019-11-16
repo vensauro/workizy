@@ -21,7 +21,7 @@ const menu = (
   </Menu>
 );
 
-export function Header({ onClick }) {
+export function Header({ onClick, handleButtonClick }) {
   const [user] = useGlobalState()
 
   return (
@@ -41,7 +41,7 @@ export function Header({ onClick }) {
           style={{ fontSize: '2rem', margin: 15 }}
           onClick={onClick}
         />
-        <Dropdown.Button overlay={menu} icon={<Icon type="user" />}>
+        <Dropdown.Button overlay={menu} onClick={handleButtonClick} icon={<Icon type="user" />}>
           {user.name}
         </Dropdown.Button>
       </div>
