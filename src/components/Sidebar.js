@@ -57,7 +57,7 @@ function Cardezoka({
   );
 }
 
-const status = ["a fazer", "fazendo", "feito", "atrasada", "confirmada"];
+const status = ["a fazer", "fazendo", "feito", "atrasada", "confirmada"]; // eslint-disable-line
 
 function StatusIcon({ num }) {
   switch (num) {

@@ -15,7 +15,7 @@ class Login extends React.Component {
         console.log("Received values of form: ", values);
       }
 
-      wretcher("http://localhost:8000/api/login")
+      wretcher(`${process.env.REACT_APP_API_URL}/api/login`)
         .accept("application/json")
         .post(values)
         .json(res => {

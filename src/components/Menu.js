@@ -54,9 +54,9 @@ export function Menu({ collapsed, onCollapse }) {
             <Item key="6">Team 1</Item>
             <Item key="8">Team 2</Item>
           </SubMenu>
-          <Item key="9">
+          <Item key="9" onClick={() => {window.open(`${process.env.REACT_APP_API_URL}/download`, "_blank"); }}>
             <Icon type="file" />
-            <span>File</span>
+            <span>Relatorio</span>
           </Item>
         </AntMenu>
     </Sider>

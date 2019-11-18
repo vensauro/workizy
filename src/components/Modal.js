@@ -25,8 +25,6 @@ export const Modal = ({ visible, hide, state = {}, setState, updateTaskss }) => 
     })
   }, [state])
 
-  console.log(formValues)
-
   const [usersData, setUsers] = useState([]);
 
   function taskCreate() {

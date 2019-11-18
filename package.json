@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nivo/bar": "^0.59.2",
+    "@nivo/calendar": "^0.59.1",
+    "@nivo/line": "^0.59.3",
     "antd": "^3.25.0",
     "babel-plugin-import": "^1.12.2",
     "customize-cra": "^0.8.0",

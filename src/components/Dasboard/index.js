@@ -8,6 +8,7 @@ import { useGlobalState } from "hooks";
 import { api } from "api";
 import "./styles.css";
 import wretcher from "wretch";
+import { Grafico } from "components/Grafico";
 
 function Dashboard() {
   const [collapsed, setCollapsed] = useState(true);
@@ -24,7 +25,6 @@ function Dashboard() {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     setGlobal(user);
-    console.log("useEffect");
   }, []); // eslint-disable-line
 
   useEffect(() => {
@@ -57,7 +57,6 @@ function Dashboard() {
           element.user = user.filter(e => e.id === element.user_id)[0]
           return element
         })
-        console.log(newTasks)
         setTask(newTasks)
         setLoading(false)
       })
@@ -76,7 +75,6 @@ function Dashboard() {
             element.user = user.filter(e => e.id === element.user_id)[0]
             return element
           })
-          console.log(newTasks)
           setTask(newTasks)
           setLoading(false)
         })
@@ -96,7 +94,7 @@ function Dashboard() {
         collapsed={collapsed}
         onCollapse={changeColapsed => setCollapsed(changeColapsed)}
       />
-      <main className="main bg-red">main</main>
+      <Grafico />
       <Sidebar tasks={task} loading={loading} updateModalState={setModalState} openModal={() => setModal(true)} />
       <Footer user={user} setTask={setTasks} />
     </div>
